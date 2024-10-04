@@ -23,6 +23,7 @@ public class SystemStatus extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        
 
 //        req.getSession();
         Bcors.setCors(req, res);
