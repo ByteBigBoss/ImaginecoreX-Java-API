@@ -31,6 +31,7 @@ public class SendChat extends HttpServlet {
 
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
 
             String logged_user_id = req.getParameter("logged_user_id");
             String other_user_id = req.getParameter("other_user_id");
@@ -55,12 +56,15 @@ public class SendChat extends HttpServlet {
             //SAVE TO MEMORY
             session.save(chat);
             //SAVE TO DB
-            session.beginTransaction().commit();
+            session.getTransaction().commit();
 
             resObj.addProperty("success", true);
+            
+            session.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
         
         //SEND RESPONSE
         res.setContentType("application/json");

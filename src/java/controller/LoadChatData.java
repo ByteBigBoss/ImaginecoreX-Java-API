@@ -39,15 +39,16 @@ public class LoadChatData extends HttpServlet {
 
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
 
             //GET USER ID FROM REQUEST PARAMETERS
             String userId = req.getParameter("id");
 
             //GET USER OBJECT
-            User user = (User) session.get(User.class, Integer.parseInt(userId));
+            User user = (User) session.load(User.class, Integer.valueOf(userId));
 
             //GET USER STATUS = 1 (ONLINE)
-            UserStatus userStatus = (UserStatus) session.get(UserStatus.class, 1);
+            UserStatus userStatus = (UserStatus) session.load(UserStatus.class, 1);
 
             //UPDATE USER STATUS
             user.setUserStatus(userStatus);
@@ -131,7 +132,7 @@ public class LoadChatData extends HttpServlet {
 //            resObj.add("user", gson.toJsonTree(user));
             resObj.add("jsonChatArray", gson.toJsonTree(jsonChatArray));
 
-            session.beginTransaction().commit();
+            session.getTransaction().commit();
             session.close();
 
         } catch (Exception e) {

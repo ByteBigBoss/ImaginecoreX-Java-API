@@ -33,79 +33,85 @@ public class LoadChatHistory extends HttpServlet {
         //LoadChat?logged_user_id=1&other_user_id=2
         Gson gson = new Gson();
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        //CREATE CHAT ARRAY
+        JsonArray chatArray = new JsonArray();
 
         String logged_user_id = req.getParameter("logged_user_id");
         String other_user_id = req.getParameter("other_user_id");
 
-        //GET LOGGED USER
-        User logged_user = (User) session.get(User.class, Integer.valueOf(logged_user_id));
+        try {
 
-        //GET OTHER USER
-        User other_user = (User) session.get(User.class, Integer.valueOf(other_user_id));
+            Session session = HibernateUtil.getSessionFactory().openSession();
 
-        //GET CHATS
-        Criteria getChats = session.createCriteria(Chat.class);
-        getChats.add(Restrictions.or(
-                Restrictions.and(
-                        Restrictions.eq("fromUser", logged_user),
-                        Restrictions.eq("toUser", other_user)
-                ),
-                Restrictions.and(
-                        Restrictions.eq("fromUser", other_user),
-                        Restrictions.eq("toUser", logged_user)
-                )
-        ));
+            //GET LOGGED USER
+            User logged_user = (User) session.get(User.class, Integer.valueOf(logged_user_id));
 
-        //SORT CHATS
-        getChats.addOrder(Order.asc("created_at"));
+            //GET OTHER USER
+            User other_user = (User) session.get(User.class, Integer.valueOf(other_user_id));
 
-        //GET CHAT LIST
-        List<Chat> chat_list = getChats.list();
+            //GET CHATS
+            Criteria getChats = session.createCriteria(Chat.class);
+            getChats.add(Restrictions.or(
+                    Restrictions.and(
+                            Restrictions.eq("fromUser", logged_user),
+                            Restrictions.eq("toUser", other_user)
+                    ),
+                    Restrictions.and(
+                            Restrictions.eq("fromUser", other_user),
+                            Restrictions.eq("toUser", logged_user)
+                    )
+            ));
 
-        //GET CHAT STATUS = 1(SEEN)
-        ChatStatus chatStatus = (ChatStatus) session.get(ChatStatus.class, 1);
+            //SORT CHATS
+            getChats.addOrder(Order.asc("created_at"));
 
-        //CREATE CHAT ARRAY
-        JsonArray chatArray = new JsonArray();
+            //GET CHAT LIST
+            List<Chat> chat_list = getChats.list();
 
-        //CREATE DATE TIME FORMAT
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, hh:mm a");
+            //GET CHAT STATUS = 1(SEEN)
+            ChatStatus chatStatus = (ChatStatus) session.get(ChatStatus.class, 1);
 
-        for (Chat chat : chat_list) {
+            //CREATE DATE TIME FORMAT
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, hh:mm a");
 
-            //CREATE CHAT OBJECT
-            JsonObject chatObject = new JsonObject();
-            chatObject.addProperty("message", chat.getMessage());
-            chatObject.addProperty("datetime", dateFormat.format(chat.getCreated_at()));
+            for (Chat chat : chat_list) {
 
-            //GET CHATS ONLY FROM OTHER USER
-            if (chat.getFromUser().getId() == other_user.getId()) {
+                //CREATE CHAT OBJECT
+                JsonObject chatObject = new JsonObject();
+                chatObject.addProperty("message", chat.getMessage());
+                chatObject.addProperty("datetime", dateFormat.format(chat.getCreated_at()));
 
-                //ADD SITE TO CHAT OBJECT
-                chatObject.addProperty("side", "left");
+                //GET CHATS ONLY FROM OTHER USER
+                if (chat.getFromUser().getId() == other_user.getId()) {
 
-                //GET ONLY UNSEEN CHATS (CHAT STATUS = 2)
-                if (chat.getChatStatus().getId() == 2) {
-                    chat.setChatStatus(chatStatus);
-                    session.update(chat);
+                    //ADD SITE TO CHAT OBJECT
+                    chatObject.addProperty("side", "left");
+
+                    //GET ONLY UNSEEN CHATS (CHAT STATUS = 2)
+                    if (chat.getChatStatus().getId() == 2) {
+                        chat.setChatStatus(chatStatus);
+                        session.update(chat);
+                    }
+
+                } else {
+                    //GET CHAT FROM LOGGED USER
+
+                    //ADD SITE TO CHAT OBJECT
+                    chatObject.addProperty("side", "right");
+
+                    chatObject.addProperty("status", chat.getChatStatus().getId());//1=>SEEN, 2=>UNSEEN
                 }
 
-            } else {
-                //GET CHAT FROM LOGGED USER
-
-                //ADD SITE TO CHAT OBJECT
-                chatObject.addProperty("side", "right");
-
-                chatObject.addProperty("status", chat.getChatStatus().getId());//1=>SEEN, 2=>UNSEEN
+                //ADD CHAT OBJECT INTO CHAT ARRAY
+                chatArray.add(chatObject);
             }
 
-            //ADD CHAT OBJECT INTO CHAT ARRAY
-            chatArray.add(chatObject);
+            //UPDATE DB
+            session.beginTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        //UPDATE DB
-        session.beginTransaction().commit();
 
         //SEND RESPONSE
         res.setContentType("application/json");

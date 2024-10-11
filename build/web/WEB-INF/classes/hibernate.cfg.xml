@@ -12,5 +12,16 @@
         <mapping class="entity.User"/>
         <mapping class="entity.ChatStatus"/>
         <mapping class="entity.Chat"/>
+        <mapping class="entity.Country"/>
+        <mapping class="entity.FriendStatus"/>
+        <mapping class="entity.FriendRequestStatus"/>
+        <mapping class="entity.FriendRequest"/>
+        <mapping class="entity.Friend"/>
+        <mapping class="entity.NotificationStatus"/>
+        <mapping class="entity.NotificationType"/>
+        <mapping class="entity.Notification"/>
+        <mapping class="entity.Profile"/>
+        <mapping class="entity.Moment"/>
+        <mapping class="entity.SavedMoment"/>
     </session-factory>
 </hibernate-configuration>

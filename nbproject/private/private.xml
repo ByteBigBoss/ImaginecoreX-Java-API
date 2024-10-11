@@ -3,9 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/hibernate.cfg.xml</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/controller/SignIn.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/controller/LoadChatHistory.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/controller/LoadNotifications.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/controller/LoadProfile.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/controller/Socket.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/model/CheckAvatar.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/entity/Notification.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/entity/Moment.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/entity/Profile.java</file>
             <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/controller/LoadChatData.java</file>
-            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/entity/Chat.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/entity/SavedMoment.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/entity/UserStatus.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/controller/LoadUserMoments.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/controller/LoadSavedMoments.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/controller/LoadFriends.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/entity/User.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/controller/LoadOtherUserProfile.java</file>
+            <file>file:/C:/Users/USER/OneDrive/Documents/NetBeansProjects/ImaginecoreX/src/java/controller/LoadMoments.java</file>
         </group>
     </open-files>
 </project-private>
